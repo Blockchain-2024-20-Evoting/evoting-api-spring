@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping("/transactions")
 @Tag(name = "Transacciones", description = "Endpoint para las consultas de las transacciones")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://206.189.238.162:5173")
 public class TransaccionController {
 
     private final ITransactionService transactionService;
