@@ -29,6 +29,7 @@ import java.util.List;
 @RequestMapping("/v1/candidate")
 @Tag(name = "Candidatos", description = "Endpoint para la gestion de candidatos en las elecciones")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://206.189.238.162:5173")
 public class CandidateController {
 
     // Inyeccion de dependencias para el service del candidato

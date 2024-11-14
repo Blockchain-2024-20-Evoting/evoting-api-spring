@@ -10,10 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controlador para gestionar operaciones relacionadas con autenticación y registro
@@ -28,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @Tag(name = "Autenticacion", description = "Endpoint para el registro de estudiantes y autenticacion de usuarios")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://206.189.238.162:5173")
 public class AuthController {
 
     private final IUserService userService;
