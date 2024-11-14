@@ -29,7 +29,7 @@ import java.util.List;
 @RequestMapping("/v1/party")
 @Tag(name = "Partidos", description = "Endpoint para la gestion de partidos de los candidatos")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://206.189.238.162:5173")
+@CrossOrigin(origins = "*")
 public class PartyController {
 
     // Inyeccion de dependencias en el servicio de partidos

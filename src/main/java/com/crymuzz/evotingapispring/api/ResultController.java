@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping("v1/results")
 @Tag(name = "Resultados", description = "Endpoint para las consultas de los resultados")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://206.189.238.162:5173")
+@CrossOrigin(origins = "*")
 public class ResultController {
 
     private final ResultServiceImpl resultService;
