@@ -50,7 +50,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults()) // Habilita el cors default
+                //.cors(Customizer.withDefaults()) // Habilita el cors default
                 .csrf(AbstractHttpConfigurer::disable) // Deshabilita el cors, para aplicaciones con JWT
                 .authorizeHttpRequests( // Gestion de accesos y permisos (por verse)
                         auth -> auth
