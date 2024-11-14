@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/profile")
 @Tag(name = "Estudiantes", description = "Endpoint para las consultas de los estudiantes")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://206.189.238.162:5173")
+@CrossOrigin(origins = "*")
 public class StudentController {
 
     private final IUserService userService;

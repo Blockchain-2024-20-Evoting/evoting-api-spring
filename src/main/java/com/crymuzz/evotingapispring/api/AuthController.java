@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 @Tag(name = "Autenticacion", description = "Endpoint para el registro de estudiantes y autenticacion de usuarios")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://206.189.238.162:5173")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final IUserService userService;
