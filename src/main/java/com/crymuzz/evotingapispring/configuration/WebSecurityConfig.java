@@ -52,30 +52,26 @@ public class WebSecurityConfig {
      * @throws Exception exception por algun error en tiempo de ejeccion
      */
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                //.cors(Customizer.withDefaults()) // Habilita el cors default
-                .csrf(AbstractHttpConfigurer::disable) // Deshabilita el cors, para aplicaciones con JWT
-                .authorizeHttpRequests( // Gestion de accesos y permisos (por verse)
-                        auth -> auth
-                                .anyRequest().permitAll()
-//                                .requestMatchers("/auth/login").permitAll()
-//                                .requestMatchers("/auth/register/student").permitAll()
-//                                .anyRequest().authenticated()
-                )
-                .formLogin(AbstractHttpConfigurer::disable) // Desactiva el formulario de inicio de sesión predeterminado
-                .exceptionHandling(e -> e.authenticationEntryPoint(jwtAuthenticationEntryPoint)) // Define un manejador para errores de autenticación
-                .sessionManagement(h -> h.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // Define la política sin estado para evitar sesiones de usuario
-                .with(new JWTConfigurer(tokenProvider), Customizer.withDefaults());  // Configura el uso de JWT en la seguridad
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);  // Agrega el filtro JWT antes del filtro de autenticación
-        return http.build();
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedHeaders(List.of("*"));
+        corsConfiguration.setAllowedOrigins(List.of("*"));
+        corsConfiguration.setAllowedMethods(List.of("*"));
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setExposedHeaders(List.of("Authorization"));
+
+        return http
+                .cors(Customizer.withDefaults())
+                .build();
     }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOriginPattern("*"); // Permite cualquier origen
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true); // Permitir credenciales si es necesario
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
