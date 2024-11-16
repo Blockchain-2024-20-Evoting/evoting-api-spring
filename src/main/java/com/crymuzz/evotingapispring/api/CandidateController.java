@@ -11,6 +11,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -29,7 +30,6 @@ import java.util.List;
 @RequestMapping("/v1/candidate")
 @Tag(name = "Candidatos", description = "Endpoint para la gestion de candidatos en las elecciones")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class CandidateController {
 
     // Inyeccion de dependencias para el service del candidato
@@ -43,6 +43,7 @@ public class CandidateController {
      */
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CandidateResponseDTO> registerCandidate(@Valid @ModelAttribute CandidateRegisterDTO candidateRegisterDTO) {
         CandidateResponseDTO response = candidateService.saveCandidate(candidateRegisterDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -57,6 +58,7 @@ public class CandidateController {
      */
 
     @GetMapping("/img/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STUDENT')")
     public ResponseEntity<Resource> getCandidateImg(@PathVariable Long id) throws IOException {
         Resource response = candidateService.findImgCandidateById(id);
         String contentType = Files.probeContentType(response.getFile().toPath());
@@ -71,6 +73,7 @@ public class CandidateController {
      */
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STUDENT')")
     public ResponseEntity<CandidateResponseDTO> getById(@PathVariable Long id) {
         CandidateResponseDTO response = candidateService.findById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -83,6 +86,7 @@ public class CandidateController {
      */
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<CandidateResponseDTO>> getAllCandidates() {
         List<CandidateResponseDTO> response = candidateService.findAll();
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -96,6 +100,7 @@ public class CandidateController {
      */
 
     @GetMapping("/profile/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STUDENT')")
     public ResponseEntity<CandidateProfileDTO> getProfile(@PathVariable Long id) {
         CandidateProfileDTO response = candidateService.getProfile(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -109,6 +114,7 @@ public class CandidateController {
      */
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteCandidate(@PathVariable Long id) {
         this.candidateService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -122,6 +128,7 @@ public class CandidateController {
      */
 
     @GetMapping("elections/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STUDENT')")
     public ResponseEntity<List<CandidateResponseDTO>> getElections(@PathVariable Long id) {
         List<CandidateResponseDTO> response = candidateService.findByElectionId(id);
         return new ResponseEntity<>(response, HttpStatus.OK);

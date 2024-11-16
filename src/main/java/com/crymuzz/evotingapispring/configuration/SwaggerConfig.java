@@ -18,7 +18,7 @@ import org.springframework.http.HttpHeaders;
                 title = "API EVOTING WITH BLOCKCHAIN",
                 description = "Sistema de votación electrónica que permite a los usuarios, principalmente " +
                         "estudiantes, participar en elecciones de forma segura y sencilla. Los usuarios pueden " +
-                        "registrarse, iniciar sesión y votar por candidatos en elecciones activas. Los roles " +
+                        "iniciar sesión y votar por candidatos en elecciones activas. Los roles " +
                         "asignados (como administrado o estudiante) determinan los permisos de cada usuario.",
                 termsOfService = "https://upao.edu.pe/",
                 version = "1.0.0", contact = @Contact(

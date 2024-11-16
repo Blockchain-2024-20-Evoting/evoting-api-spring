@@ -4,6 +4,7 @@ import com.crymuzz.evotingapispring.exception.JWTAuthenticationEntryPoint;
 import com.crymuzz.evotingapispring.security.jwt.JWTConfigurer;
 import com.crymuzz.evotingapispring.security.jwt.JWTFilter;
 import com.crymuzz.evotingapispring.security.jwt.TokenProvider;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,33 +53,43 @@ public class WebSecurityConfig {
      * @throws Exception exception por algun error en tiempo de ejeccion
      */
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedHeaders(List.of("*"));
-        corsConfiguration.setAllowedOrigins(List.of("*"));
-        corsConfiguration.setAllowedMethods(List.of("*"));
-        corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setExposedHeaders(List.of("Authorization"));
+        http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("vote/**").hasRole("STUDENT")
+                        .requestMatchers("results/**").hasAnyRole("ADMIN", "STUDENT")
+                        .requestMatchers("/auth/login").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(AbstractHttpConfigurer::disable)
+                .exceptionHandling(e -> e.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                .sessionManagement(h -> h.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(headers -> headers
+                        .httpStrictTransportSecurity(hsts -> hsts.includeSubDomains(true).maxAgeInSeconds(31536000))
+                        .contentSecurityPolicy(csp -> csp.policyDirectives("script-src 'self'"))
+                )
+                .with(new JWTConfigurer(tokenProvider), Customizer.withDefaults());
 
-        return http
-                .cors(Customizer.withDefaults())
-                .build();
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
     }
+
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOriginPattern("*"); // Permite cualquier origen
-        configuration.setAllowedMethods(List.of("*"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true); // Permitir credenciales si es necesario
+        configuration.setAllowedOrigins(List.of("http://206.189.238.162")); // Solo tu dominio
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Métodos permitidos
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type")); // Headers permitidos
+        configuration.setExposedHeaders(List.of("Authorization")); // Headers expuestos en la respuesta
+        configuration.setAllowCredentials(true); // Permite el uso de cookies o credenciales
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
 
     /**
      * Gestor de autenticacion
@@ -87,6 +98,7 @@ public class WebSecurityConfig {
      * @return AuthenticationManager obtiene la instancia
      * @throws Exception exception para generales
      */
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
@@ -99,7 +111,7 @@ public class WebSecurityConfig {
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(12);
     }
 
 }
