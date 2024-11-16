@@ -25,7 +25,6 @@ import java.util.List;
 @RequestMapping("/v1/election")
 @Tag(name = "Elecciones", description = "Endpoint para la gestion de elecciones de las votaciones")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class ElectionController {
 
     // Inyeccion de dependencias para el service eleccion
@@ -39,6 +38,7 @@ public class ElectionController {
      */
 
     @PostMapping
+
     public ResponseEntity<ElectionResponseDTO> create(@RequestBody @Valid ElectionRegisterDTO electionRegisterDTO) {
         ElectionResponseDTO response = electionService.saveElection(electionRegisterDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);

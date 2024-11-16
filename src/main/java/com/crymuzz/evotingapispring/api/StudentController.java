@@ -5,6 +5,7 @@ import com.crymuzz.evotingapispring.service.IUserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/profile")
 @Tag(name = "Estudiantes", description = "Endpoint para las consultas de los estudiantes")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class StudentController {
 
     private final IUserService userService;
@@ -36,6 +36,7 @@ public class StudentController {
 
     // Obtener su perfil por su ID
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STUDENT')")
     public ResponseEntity<UserProfileDTO> updateProfile(@PathVariable Long id, @RequestBody UserProfileDTO userProfileDTO) {
         UserProfileDTO updateProfile = userService.update(id, userProfileDTO);
         return ResponseEntity.ok(updateProfile);
@@ -49,6 +50,7 @@ public class StudentController {
      */
     // Actualizar su perfil
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STUDENT')")
     public ResponseEntity<UserProfileDTO> getProfile(@PathVariable Long id) {
         UserProfileDTO userProfileDTO = userService.findById(id);
         return ResponseEntity.ok(userProfileDTO);

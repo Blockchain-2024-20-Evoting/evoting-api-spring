@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,18 +15,19 @@ import java.util.List;
 @RequestMapping("/transactions")
 @Tag(name = "Transacciones", description = "Endpoint para las consultas de las transacciones")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class TransaccionController {
 
     private final ITransactionService transactionService;
 
     @GetMapping("/{hash}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STUDENT')")
     public ResponseEntity<TransactionResponseDTO> getTransactionByHash(@PathVariable String hash) {
         TransactionResponseDTO response = transactionService.findTransactionByHash(hash);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<TransactionResponseDTO>> getAllTransactions() {
         List<TransactionResponseDTO> transactions = transactionService.findAllTransactions();
         return new ResponseEntity<>(transactions, HttpStatus.OK);
