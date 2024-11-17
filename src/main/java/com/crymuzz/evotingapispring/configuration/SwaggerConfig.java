@@ -35,7 +35,7 @@ import org.springframework.http.HttpHeaders;
                 url = "http://localhost:8080"
         ), @Server(
                 description = "PRODUCTION SERVER",
-                url = "http://localhost:8080"
+                url = "http://206.189.238.162:8080"
         )},
         security = @SecurityRequirement(
                 name = "Security Token"
