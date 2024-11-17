@@ -56,7 +56,7 @@ public class WebSecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("vote/**").hasRole("STUDENT")
                         .requestMatchers("results/**").hasAnyRole("ADMIN", "STUDENT")
                         .requestMatchers("/auth/login").permitAll()
