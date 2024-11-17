@@ -1,7 +1,6 @@
 package com.crymuzz.evotingapispring.entity.dto;
 
 import com.crymuzz.evotingapispring.entity.CandidateEntity;
-import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 

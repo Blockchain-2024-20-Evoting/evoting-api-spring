@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ModelMapperConfig {
-
     /**
      * @return Retorna la instancia del modelmapper
      */
@@ -20,7 +19,5 @@ public class ModelMapperConfig {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-
-
 
 }

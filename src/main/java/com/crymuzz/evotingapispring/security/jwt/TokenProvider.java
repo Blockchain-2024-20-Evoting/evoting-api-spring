@@ -1,6 +1,5 @@
 package com.crymuzz.evotingapispring.security.jwt;
 
-import com.crymuzz.evotingapispring.entity.UserEntity;
 import com.crymuzz.evotingapispring.exception.RoleNotFoundException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

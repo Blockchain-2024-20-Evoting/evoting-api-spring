@@ -1,7 +1,6 @@
 package com.crymuzz.evotingapispring.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import lombok.*;
 
 @Entity
