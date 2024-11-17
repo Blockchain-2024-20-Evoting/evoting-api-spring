@@ -3,8 +3,6 @@ package com.crymuzz.evotingapispring.service;
 import com.crymuzz.evotingapispring.entity.dto.PartyRegisterDTO;
 import com.crymuzz.evotingapispring.entity.dto.PartyResponseDTO;
 import org.springframework.core.io.Resource;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 
 public interface IPartyService {

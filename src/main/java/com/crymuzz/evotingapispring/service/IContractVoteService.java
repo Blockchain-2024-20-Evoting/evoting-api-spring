@@ -5,7 +5,6 @@ import org.web3j.protocol.exceptions.TransactionException;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.List;
 
 public interface IContractVoteService {
     TransactionReceipt vote(Long electionId, Long candidateId, Long studentId) throws TransactionException, IOException;

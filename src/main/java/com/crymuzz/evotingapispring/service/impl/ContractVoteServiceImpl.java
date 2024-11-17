@@ -2,7 +2,6 @@ package com.crymuzz.evotingapispring.service.impl;
 
 import com.crymuzz.evotingapispring.exception.ErrorResponseContractException;
 import com.crymuzz.evotingapispring.exception.ErrorTransactionException;
-import com.crymuzz.evotingapispring.mapper.TransactionMapper;
 import com.crymuzz.evotingapispring.service.IContractVoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

@@ -4,7 +4,6 @@ import com.crymuzz.evotingapispring.exception.JWTAuthenticationEntryPoint;
 import com.crymuzz.evotingapispring.security.jwt.JWTConfigurer;
 import com.crymuzz.evotingapispring.security.jwt.JWTFilter;
 import com.crymuzz.evotingapispring.security.jwt.TokenProvider;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +15,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -43,7 +41,6 @@ public class WebSecurityConfig {
     private final TokenProvider tokenProvider;
     private final JWTFilter jwtRequestFilter;
     private final JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final UserDetailsService userDetailsService;
 
     /**
      * Configura la cadena de seguridad para definir politicas de acceso y autenticacion
@@ -59,6 +56,7 @@ public class WebSecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("vote/**").hasRole("STUDENT")
                         .requestMatchers("results/**").hasAnyRole("ADMIN", "STUDENT")
                         .requestMatchers("/auth/login").permitAll()

@@ -6,7 +6,6 @@ import com.crymuzz.evotingapispring.entity.dto.ElectionResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 @RequiredArgsConstructor

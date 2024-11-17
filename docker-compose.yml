@@ -21,6 +21,8 @@ services:
     depends_on:
       evoting_database:
         condition: service_healthy
+    networks:
+      - shared-network
 
   evoting_database:
     container_name: evoting-database-mysql
@@ -38,3 +40,9 @@ services:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       timeout: 10s
       retries: 10
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    external: true
